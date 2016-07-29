@@ -1,0 +1,28 @@
+{
+  "name": "voucherwallet",
+  "version": "1.0.0",
+  "description": "RMN PDP Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpedroribeiro/VoucherWallet.git"
+  },
+  "keywords": [
+    "progressive",
+    "web",
+    "app",
+    "offline",
+    "service",
+    "workers",
+    "push"
+  ],
+  "author": "J. Pedro Ribeiro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jpedroribeiro/VoucherWallet/issues"
+  },
+  "homepage": "https://github.com/jpedroribeiro/VoucherWallet#readme"
+}
