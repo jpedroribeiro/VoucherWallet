@@ -1,4 +1,5 @@
-let version = 'v1-';
+let version = 'v1-',
+	status = 'offline';
 
 /*
 *		INSTALL 
@@ -46,6 +47,10 @@ self.addEventListener('fetch', function (event) {
   									function (response) {
 	  									console.log('WORKER: fetching from network 🌐', event.request.url);
 
+	  									if (event.request.url === self.location.origin) {
+	  										status = 'online';
+	  									}
+
 	  									caches
 	  										.open(version + 'content')
 	  										.then(function (cache) {
@@ -53,7 +58,7 @@ self.addEventListener('fetch', function (event) {
 	  											cache.put(event.request, response.clone());
 	  										})
 	  										.then(function () {
-	  											console.log('WORKER: fetch response store in cache 😘');
+	  											console.log('WORKER: fetch response stored new version in cache 😘');
 	  										});
 
 										// now I'm free to let the browser read the original response stream (2/2)
@@ -70,9 +75,19 @@ self.addEventListener('fetch', function (event) {
 });
 
 
+/*
+*		MESSAGE
+*/
+self.addEventListener('message', function (event) {
+	console.log('WORKER: message [' + event.data + ']');
+
+	// TODO HERE *********************************************************
+	// i can read client messages but not reply back :-/
+	event.ports[0].postMessage(status);
+});
 
 
-
+// TODO: phase out from css trick tutorial
 
 /*
 *		UTILITARY METHODS
