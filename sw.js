@@ -1,5 +1,5 @@
 let version = 'v1-',
-	status = 'offline';
+	status = 'onlin';
 
 /*
 *		INSTALL 
@@ -47,7 +47,7 @@ self.addEventListener('fetch', function (event) {
   									function (response) {
 	  									console.log('WORKER: fetching from network 🌐', event.request.url);
 
-	  									if (event.request.url === self.location.origin) {
+	  									if (event.request.url === self.location.origin + '/') {
 	  										status = 'online';
 	  									}
 
@@ -95,6 +95,9 @@ self.addEventListener('message', function (event) {
 self.unableToResolve = function () {
 	// This is when everything (cache + network) fails
 	console.log('WORKER: fetch and cache failed 😣');
+
+	// Update status
+	status = 'offline';
 
 	// TODO: cache this into the app foundation cache
 	return new Response('<h1>Service Unavailable</h1>', {

@@ -1,3 +1,5 @@
+let $statusEl = document.querySelectorAll('.js-status')[0];
+
 if ('serviceWorker' in navigator) {
 	console.log('CLIENT: serviceWorker registration starting...');
 	// Service worker on the root as it is scoped on directory level
@@ -6,10 +8,10 @@ if ('serviceWorker' in navigator) {
 			console.log('CLIENT: serviceWorker registration complete 🙏');
 			messageToSW('test').then(
 				function (data) {
-					debugger;
+					updateStatus(data);
 				},
-				function (data) {
-					debugger;
+				function () {
+					updateStatus('online');
 				});
 
 		},
@@ -37,4 +39,11 @@ function messageToSW (message) {
 
 		navigator.serviceWorker.controller.postMessage(message, [msgChannel.port2]);
 	});
+}
+
+function updateStatus (status) {
+	if (status === 'offline') {
+		$statusEl.className = $statusEl.className.replace('success', 'danger');
+	}
+	$statusEl.innerHTML = status;
 }
