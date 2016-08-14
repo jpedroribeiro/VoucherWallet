@@ -6,7 +6,7 @@ if ('serviceWorker' in navigator) {
 	navigator.serviceWorker.register('/sw.js').then(
 		function () {
 			console.log('CLIENT: serviceWorker registration complete 🙏');
-			messageToSW('test').then(
+			messageToSW().then(
 				function (data) {
 					updateStatus(data);
 				},
@@ -37,7 +37,7 @@ function messageToSW (message) {
 			}
 		}
 
-		navigator.serviceWorker.controller.postMessage(message, [msgChannel.port2]);
+		navigator.serviceWorker.controller.postMessage(message || '', [msgChannel.port2]);
 	});
 }
 
