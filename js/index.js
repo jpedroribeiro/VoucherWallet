@@ -74,11 +74,16 @@ function updateStatus (status) {
 *	RENDER OFFERS
 */
 
-function renderOffers(offers) {
-	let template = Handlebars.compile($offerTemplateElement.innerHTML);
+function renderOffers(data) {
+	let offersArray = data.offers,
+		template = Handlebars.compile($offerTemplateElement.innerHTML),
+		tempHTML = '';
 
-	// TODO loop through offers
-	$offersContainer.innerHTML = template(offers);
+	for (let offer of offersArray) {
+		tempHTML += template(offer);
+	}
+	
+	$offersContainer.innerHTML = tempHTML;
 }
 
 
@@ -110,5 +115,14 @@ function getOffers () {
 *	START APP
 */
 getOffers().then(function (data) {
-	console.log(data);
+	renderOffers(JSON.parse(data));
 });
+
+
+
+
+
+
+// TODO HERE
+// cache offers json?
+// how to save offers?
