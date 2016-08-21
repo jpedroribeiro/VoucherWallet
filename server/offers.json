@@ -1,0 +1,29 @@
+{
+	"offers": [
+		{
+			"merchant": "Asos",
+			"tittle": "10% off summer clothes",
+			"code": "VC2016RMN"
+		},
+		{
+			"merchant": "Debenhams",
+			"tittle": "2 for 1 on plain t-shirts",
+			"code": "PLAINTS"
+		},
+		{
+			"merchant": "Debenhams",
+			"tittle": "£15 off on debit card purchases",
+			"code": "FIFTEENOFF"
+		},
+		{
+			"merchant": "Pizza Hut",
+			"tittle": "Second pizza for £1 on Saturdays",
+			"code": "FATSO"
+		},
+		{
+			"merchant": "Asos",
+			"tittle": "25% off on cargo trousers",
+			"code": "INTHENAVY"
+		},
+	]
+}

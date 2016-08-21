@@ -1,4 +1,4 @@
-let $statusEl = document.querySelectorAll('.js-status')[0];
+const $statusEl = document.querySelectorAll('.js-status')[0];
 
 if ('serviceWorker' in navigator) {
 	console.log('CLIENT: serviceWorker registration starting...');
