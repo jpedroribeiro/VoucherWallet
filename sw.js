@@ -136,7 +136,7 @@ self.unableToResolve = function () {
 	// Update status
 	status = 'offline';
 
-	// TODO: cache this into the app foundation cache
+	// TODO: cache this into the app foundation cache ?
 	return new Response('<h1>Service Unavailable</h1>', {
 		status: 503,
 		statusText: 'Service Unavailable',
