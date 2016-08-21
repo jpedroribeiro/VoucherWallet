@@ -1,12 +1,9 @@
 # VoucherWallet
 
 ```
-	// Install packages
-	$npm install
+// Install packages
+$npm install
 
-	// Run VoucherWallet server
-	$serve
-
-	// Run Offers server
-	$node server/index.js
+// Run VoucherWallet server
+$node server/index.js
 ``` 

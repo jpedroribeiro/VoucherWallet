@@ -27,6 +27,6 @@
   "homepage": "https://github.com/jpedroribeiro/VoucherWallet#readme",
   "dependencies": {
     "express": "^4.14.0",
-    "serve": "^1.4.0"
+    "handlebars": "^4.0.5"
   }
 }

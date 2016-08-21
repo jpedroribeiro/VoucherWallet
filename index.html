@@ -22,22 +22,30 @@
 				</div>
 			</div>
 
-			<!-- list of offers -->
-			<div class="card">
-				<h2 class="h5 card-header">
-					Asos
-				</h2>
-				<div class="card-block">
-					<h3 class="h5 card-title">10% off summer clothes</h3>
-					<p class="card-text">Code: <b class="text-success">VC2016RMN</b></p>
-				</div>
+			<div class="offer-container">
+
 			</div>
+
+			<!-- TODO: add splash screen -->
+
+			<!-- list of offers -->
+			<script type="text/x-handlebars-template" id="offerTemplate">
+				<div class="card">
+					<h2 class="h5 card-header">
+						{{merchant}}
+					</h2>
+					<div class="card-block">
+						<h3 class="h5 card-title">{{title}}</h3>
+						<p class="card-text">Code: <b class="text-success">{{code}}</b></p>
+					</div>
+				</div>
+			</script>
 
 		</section>
 
 
 
-
+		<script src="node_modules/handlebars/dist/handlebars.min.js"></script>
 		<script src="js/index.js"></script>
 	</body>
 

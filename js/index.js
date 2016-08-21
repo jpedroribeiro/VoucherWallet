@@ -1,4 +1,13 @@
-const $statusEl = document.querySelectorAll('.js-status')[0];
+const
+	$statusEl = document.querySelectorAll('.js-status')[0],
+	$offersContainer = document.querySelectorAll('.offer-container')[0],
+	$offerTemplateElement = document.getElementById('offerTemplate');
+
+
+
+/*
+*	SERVICE WORKER
+*/
 
 if ('serviceWorker' in navigator) {
 	console.log('CLIENT: serviceWorker registration starting...');
@@ -24,6 +33,11 @@ if ('serviceWorker' in navigator) {
 }
 
 
+
+/*
+*	MESSAGING
+*/
+
 function messageToSW (message) {
 	return new Promise (function (resolve, reject) {
 		let msgChannel = new MessageChannel();
@@ -41,9 +55,60 @@ function messageToSW (message) {
 	});
 }
 
+
+
+/*
+*	ONLINE/OFFLINE STATUS
+*/
+
 function updateStatus (status) {
 	if (status === 'offline') {
 		$statusEl.className = $statusEl.className.replace('success', 'danger');
 	}
 	$statusEl.innerHTML = status;
 }
+
+
+
+/*
+*	RENDER OFFERS
+*/
+
+function renderOffers(offers) {
+	let template = Handlebars.compile($offerTemplateElement.innerHTML);
+
+	// TODO loop through offers
+	$offersContainer.innerHTML = template(offers);
+}
+
+
+
+/*
+*	GET OFFERS
+*/
+
+function getOffers () {
+	return new Promise (function (resolve, reject) {
+		let request = new XMLHttpRequest();
+
+		request.open('GET', 'http://localhost:3000/offers');
+
+		request.onload = function () {
+			if (request.status == 200) {
+				resolve(request.response);
+			} else {
+				console.error(request.statusText);
+			}
+		}
+
+		request.send();
+	});
+}
+
+
+/*
+*	START APP
+*/
+getOffers().then(function (data) {
+	console.log(data);
+});
