@@ -1,8 +1,8 @@
 const
 	$statusEl = document.querySelectorAll('.js-status')[0],
 	$offersContainer = document.querySelectorAll('.offer-container')[0],
-	$offerTemplateElement = document.getElementById('offerTemplate');
-
+	$offerTemplateElement = document.getElementById('offerTemplate'),
+	$offersCounter = document.querySelectorAll('.js-offers')[0];
 
 
 /*
@@ -111,11 +111,23 @@ function getOffers () {
 }
 
 
+
+/*
+*	UPDATE OFFER COUNT
+*/
+
+function updateCounter (value) {
+	$offersCounter.innerHTML = value;
+}
+
+
 /*
 *	START APP
 */
 getOffers().then(function (data) {
-	renderOffers(JSON.parse(data));
+	let parsedData = JSON.parse(data);
+	renderOffers(parsedData);
+	updateCounter(parsedData.offers.length);
 });
 
 
@@ -126,3 +138,8 @@ getOffers().then(function (data) {
 // TODO HERE
 // cache offers json?
 // how to save offers?
+
+
+
+
+// try out async await from canary latest?
