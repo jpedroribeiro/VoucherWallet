@@ -6,10 +6,10 @@ let
 
 const
 	appShellFiles = [
-		'/',
 		'/css/index.css',
 		'/js/index.js',
-		'/node_modules/handlebars/dist/handlebars.min.js'
+		'/node_modules/handlebars/dist/handlebars.min.js',
+		'/manifest.json'
 	];
 
 /*
@@ -98,6 +98,9 @@ self.addEventListener('fetch', function (event) {
 								.then(
 									function (response) {
 										let cacheName;
+										// store a clone of the request into the cache, we do this because response streams can only be read once (in this case: the original for the browser and the clone to the cache) (1/2)
+										const responseClone = response.clone(); 
+
 										console.log('WORKER: fetching from network 🌐', event.request.url);
 
 										if (event.request.url === self.location.origin + '/') {
@@ -114,8 +117,7 @@ self.addEventListener('fetch', function (event) {
 										caches
 											.open(version + cacheName)
 											.then(function (cache) {
-												// store a clone of the request into the cache, we do this because response streams can only be read once (in this case: the original for the browser and the clone to the cache) (1/2)
-												cache.put(event.request, response.clone());
+												cache.put(event.request, responseClone);
 											})
 											.then(function () {
 												console.log('WORKER: fetch response stored new version in cache 😘');
@@ -145,6 +147,43 @@ self.addEventListener('message', function (event) {
 	console.log('WORKER: message [' + message + ']');
 	event.ports[0].postMessage(status);
 });
+
+
+/*
+*	PUSH
+*
+*	✋=>
+*/
+self.addEventListener('push', function (event) {
+	console.log(`WORKER: Push event received`)
+
+	event.waitUntil(
+		self.registration.showNotification('VoucherWallet Update', {
+			body: 'We have new offers available to you. Click here to update your wallet.',
+			icon: 'images/pound.png',
+			tag: 'offer-tag',
+			vibrate: [300, 100, 400],
+			actions: [
+				{ action: 'update', title: 'Update list', icon: 'images/done.png' },
+				{ action: 'dismiss', title: 'Dismiss', icon: 'images/close.png' }
+			]
+		})
+	);
+});
+
+	self.addEventListener('notificationclick', function(event) {
+		console.log(`WORKER: sending notification action to client...`);
+		
+		// Post message to client with action
+		self.clients.matchAll().then(function(clients) {
+			clients.forEach(function(client) {
+				client.postMessage(event.action);
+			});
+		});
+
+		event.notification.close();
+	});
+
 
 
 

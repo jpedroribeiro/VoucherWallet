@@ -11,23 +11,49 @@ const
 
 if ('serviceWorker' in navigator) {
 	console.log('CLIENT: serviceWorker registration starting...');
-	// Service worker on the root as it is scoped on directory level
-	navigator.serviceWorker.register('/sw.js').then(
-		function () {
-			console.log('CLIENT: serviceWorker registration complete 🙏');
-			messageToSW().then(
-				function (data) {
-					updateStatus(data);
-				},
-				function () {
-					updateStatus('online');
-				});
 
-		},
-		function () {
-			console.log('CLIENT: serviceWorker registration failed 🖕');
-		}
-	);
+	// Service worker on the root as it is scoped on directory level
+	navigator.serviceWorker.register('/sw.js')
+		.then(
+			function () {
+				console.log('CLIENT: serviceWorker registration complete 🙏');
+
+				// Update online status
+				messageToSW().then(
+					function (data) {
+						updateStatus(data);
+					},
+					function () {
+						updateStatus('online');
+					});
+
+				// Carry on with registration down the chain
+				return navigator.serviceWorker.ready;
+			},
+			function () {
+				console.log('CLIENT: serviceWorker registration failed 🖕');
+			}
+		)
+		.then(
+			function (registration) {
+				console.log('CLIENT: serviceWorker pushManager registration 📢');
+
+				// Register push manager
+				registration.pushManager.subscribe({userVisibleOnly: true}).then(function(sub) { console.log('CLIENT: endpoint =>:', sub.endpoint); });
+
+			},
+			function () {
+				console.log('CLIENT: serviceWorker registration failed 🖕');
+			}
+		);
+
+	// Listen to messages from SW
+	navigator.serviceWorker.addEventListener('message', function(event){
+        console.log(`CLIENT: Received Message: ${event.data}`, event);
+        if (event.data === 'update') {
+        	offers();
+        }
+    });
 } else {
 	console.log('CLIENT: serviceWorker it not supported in this browser 💩');
 }
@@ -124,22 +150,34 @@ function updateCounter (value) {
 /*
 *	START APP
 */
-getOffers().then(function (data) {
-	let parsedData = JSON.parse(data);
-	renderOffers(parsedData);
-	updateCounter(parsedData.offers.length);
-});
+function offers() {
+	getOffers().then(function (data) {
+		let parsedData = JSON.parse(data);
+		renderOffers(parsedData);
+		updateCounter(parsedData.offers.length);
+	});	
+}
+offers();
 
 
 
 
 
-
-// TODO HERE
-// cache offers json?
-// how to save offers?
-
-
-
-
+// TODO
+// push - make server do the push and not curl
+// offline - make sure push offers actually updates offers but keeps other things in cache
+// manifest (done?)
+// es6ify everything
 // try out async await from canary latest?
+
+
+
+
+//curl --header "Authorization: key=AIzaSyBKaVb7nTC_v3R_H7kjfX40J_F5Qc2hkcs" --header "Content-Type: application/json" https://android.googleapis.com/gcm/send -d "{\"registration_ids\":[\"dlliORFPAg8:APA91bEwqJlBXNitTeuOvJexMxoVy2q0X8RzZkCqlLnekCNwb8XlFywDUSztFgFxMQdIRzEcZYoLFrLbq-IvWJzcphZ0YqDlKd-GyUuj6w-vo09VAh7kRKq9xKgyEfwyEPqzwlZkStkQ\"]}"
+
+
+
+
+
+
+
