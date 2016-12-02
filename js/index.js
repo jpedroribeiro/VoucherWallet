@@ -50,6 +50,7 @@ if ('serviceWorker' in navigator) {
 	// Listen to messages from SW
 	navigator.serviceWorker.addEventListener('message', function(event){
         console.log(`CLIENT: Received Message: ${event.data}`, event);
+        // For Push notification actions
         if (event.data === 'update') {
         	offers();
         }
@@ -164,20 +165,23 @@ offers();
 
 
 // TODO
-// push - make server do the push and not curl
-// offline - make sure push offers actually updates offers but keeps other things in cache
-// manifest (done?)
 // es6ify everything
-// try out async await from canary latest?
 
 
 
+/* 
 
-//curl --header "Authorization: key=AIzaSyBKaVb7nTC_v3R_H7kjfX40J_F5Qc2hkcs" --header "Content-Type: application/json" https://android.googleapis.com/gcm/send -d "{\"registration_ids\":[\"dlliORFPAg8:APA91bEwqJlBXNitTeuOvJexMxoVy2q0X8RzZkCqlLnekCNwb8XlFywDUSztFgFxMQdIRzEcZYoLFrLbq-IvWJzcphZ0YqDlKd-GyUuj6w-vo09VAh7kRKq9xKgyEfwyEPqzwlZkStkQ\"]}"
+Quick Guide to Push via cli
 
+1) Run server and load web app
+2) Check console for client registration id
+3) Get API key from Firebase: https://console.firebase.google.com/
+4) Replace both in the command below, as per the model:
+curl --header "Authorization: key=<YOUR_API_KEY>" --header
+"Content-Type: application/json" https://android.googleapis.com/gcm/send -d
+"{\"registration_ids\":[\"<YOUR_REGISTRATION_ID>\"]}"
 
+A) Working example with both API key and registration ID:
+curl --header "Authorization: key=AIzaSyBKaVb7nTC_v3R_H7kjfX40J_F5Qc2hkcs" --header "Content-Type: application/json" https://android.googleapis.com/gcm/send -d "{\"registration_ids\":[\"dTotemAQydE:APA91bHUMvnV5TU7OUwjPUhnMBVMYcK7VZAQbLHEVj_IHcCa0ekEyu9iRG06xLs7nMzZNQ2GwxmJFyjdQauDW0zCiT7rvqamNTo2jcGNEj3p8rynnA-FyS4sFAackV-Pzt-D3jTKqtkE\"]}"
 
-
-
-
-
+*/

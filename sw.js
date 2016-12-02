@@ -14,7 +14,9 @@ const
 
 /*
 *		INSTALL 
-*		
+*
+*		This event is only called *once* per service worker (unless you change it)
+* 		https://developers.google.com/web/fundamentals/instant-and-offline/service-worker/lifecycle
 */
 self.addEventListener('install', function (event) {
 	console.log('WORKER: install event in progress...');
@@ -131,7 +133,12 @@ self.addEventListener('fetch', function (event) {
 								.catch(self.fetchFail);
 
 				console.log('WORKER: fetching resource from: ', cached ? 'cache' : 'network', event.request.url);
-				return cached || networked;
+
+				// OFFLINE-FIRST?
+				// This is a strategy decision, we could use 'cached' first if we 
+				// prefer a less disruptive experience, as in, the user would be ok
+				// with delaying the updated data.
+				return networked || cached; // Or the opposite, if we want offline-first
 			})
 	);
 });
@@ -159,7 +166,7 @@ self.addEventListener('push', function (event) {
 
 	event.waitUntil(
 		self.registration.showNotification('VoucherWallet Update', {
-			body: 'We have new offers available to you. Click here to update your wallet.',
+			body: 'We have new offers available to you!',
 			icon: 'images/pound.png',
 			tag: 'offer-tag',
 			vibrate: [300, 100, 400],
