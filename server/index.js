@@ -3,7 +3,7 @@ const
 	app = express(),
 	path = require('path'),
 	fs = require('fs'),
-	port = process.env.PORT || 8080;
+	port = process.argv[2] || 8080;
 
 /*
 *		OFFERS LIST ENDPOINT
@@ -21,7 +21,7 @@ app.use(express.static(__dirname + '/../'));
 *		FRONTEND
 */
 app.listen(port, function () {
-	console.log('Server listening on port ' + port);
+	console.log('Server listening on http://localhost:' + port + '/');
 });
 
 app.get('/', function (req, res) {

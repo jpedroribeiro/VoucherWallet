@@ -5,5 +5,5 @@
 $npm install
 
 // Run VoucherWallet server
-$node server/index.js
+$npm start {port}
 ``` 
