@@ -2,7 +2,8 @@ const
 	express = require('express'),
 	app = express(),
 	path = require('path'),
-	fs = require('fs');
+	fs = require('fs'),
+	port = process.env.PORT || 8080;
 
 /*
 *		OFFERS LIST ENDPOINT
@@ -19,8 +20,8 @@ app.use(express.static(__dirname + '/../'));
 /*
 *		FRONTEND
 */
-app.listen(3000, function () {
-	console.log('Server listening on port 3000')
+app.listen(port, function () {
+	console.log('Server listening on port ' + port);
 });
 
 app.get('/', function (req, res) {
