@@ -123,7 +123,7 @@ function getOffers () {
 	return new Promise (function (resolve, reject) {
 		let request = new XMLHttpRequest();
 
-		request.open('GET', 'http://localhost:3000/offers');
+		request.open('GET', '/offers');
 
 		request.onload = function () {
 			if (request.status == 200) {
